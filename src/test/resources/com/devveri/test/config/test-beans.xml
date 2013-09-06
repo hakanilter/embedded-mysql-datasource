@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="com.devveri"/>
+
+    <context:property-placeholder location="classpath:com/devveri/test/config/test.properties" />
+
+    <!-- jdbc template -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- embedded mysql datasource -->
+    <bean id="dataSource" class="com.devveri.jdbc.datasource.EmbeddedMysqlDataSource"
+          init-method="init" destroy-method="shutdown">
+        <property name="url" value="${db.jdbc.url}" />
+        <property name="driverClassName" value="${db.driver.class}" />
+        <property name="username" value="${db.user}" />
+        <property name="password" value="${db.pass}" />
+        <property name="deleteBeforeOpen" value="${db.delete.before}" />
+        <property name="deleteAfterClose" value="${db.delete.after}" />
+    </bean>
+
+    <!-- create tables and load test data -->
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
+        <jdbc:script location="classpath:com/devveri/test/config/*.sql" />
+    </jdbc:initialize-database>
+
+</beans>
