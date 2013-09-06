@@ -1,2 +1,1 @@
-Embedded MySQL for Spring Integration Tests
-
+An embedded mysql datasource implementation for spring integration tests with using mysql-connector-mxj
