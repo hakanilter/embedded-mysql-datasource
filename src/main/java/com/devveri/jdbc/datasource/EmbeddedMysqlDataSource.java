@@ -20,20 +20,11 @@ public class EmbeddedMysqlDataSource extends DriverManagerDataSource {
 
     private static final String PARAM_SERVER_BASEDIR = "server.basedir";
 
-    private boolean created = true;
     private boolean deleteBeforeOpen;
     private boolean deleteAfterClose;
 
     public EmbeddedMysqlDataSource() {
 
-    }
-
-    public boolean isCreated() {
-        return created;
-    }
-
-    public void setCreated(boolean created) {
-        this.created = created;
     }
 
     public boolean isDeleteBeforeOpen() {
